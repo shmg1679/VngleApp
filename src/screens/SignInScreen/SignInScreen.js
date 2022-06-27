@@ -5,6 +5,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignUpButtons from '../../components/SocialSignUpButtons/SocialSignUpButtons'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios';
 
 const SignInScreen = () => {
     const [username, setUsername] = useState('');
@@ -13,8 +14,18 @@ const SignInScreen = () => {
     const {height} = useWindowDimensions();
     const navigation = useNavigation();
 
-    const onSignInPressed = () =>{
-        navigation.navigate('Home')
+    const onSignInPressed = async () => {
+        //navigation.navigate('Home')
+        //console.warn(username)
+        await axios.post('http://10.0.2.2:1337/api/auth/local',{
+            identifier: username,
+            password: password
+        })
+        .then((response) => {
+            console.warn(response.jwt)
+        }).catch((error) => {
+            console.warn(username, password)
+        })  
     }
 
     const onForgotPasswordPressed = () =>{
