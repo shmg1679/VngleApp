@@ -19,12 +19,13 @@ const SignInScreen = () => {
         //console.warn(username)
         await axios.post('http://10.0.2.2:1337/api/auth/local',{
             identifier: username,
-            password: password
+            password: password,
         })
         .then((response) => {
-            console.warn(response.jwt)
+            // console.warn(response.data.jwt)
+            navigation.navigate('Home')
         }).catch((error) => {
-            console.warn(username, password)
+            console.warn('Wrong username or password')
         })  
     }
 
