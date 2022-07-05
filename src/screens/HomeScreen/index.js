@@ -8,11 +8,13 @@ import Camera from '../../../assets/images/camera-icon.png'
 import Upload from '../../../assets/images/upload-icon.png'
 
 const Index = () => {
+
+  let path = null; 
+
   const takeVid = () =>{
     ImagePicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      
       console.log(image);
     }).catch((err) => { console.log("openCamera catch " + err.toString()) });
   }
@@ -21,7 +23,8 @@ const Index = () => {
     ImagePicker.openPicker({
       mediaType: "video",
     }).then((video) => {
-      console.log(video);
+      console.log(video.path);
+      path = video.path;
     }).catch((err) => { console.log("openPicker catch " + err.toString()) });
   }
 
@@ -43,32 +46,72 @@ const Index = () => {
   const [tag, setTag] = useState('');
 
   const onSubmit = () => {
-    axios.post('http://10.0.2.2:1337/api/stories',
-    {
-      "data": {
-        title: title,
-        description: description,
-        tag: tag
-      }
-    }, 
-    {
-      headers: {
-        "Content-Type": "application/json",
-      }
-    }
-  )
-  .then((response) => {
-    console.warn(response);
-  })
-  .catch((error) => {
-    console.warn(error)
-  })
+
+    console.log(path);
+
+
+
+    const formData = new FormData();
+    //const uri = path 
+    //const uri = 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4'; // from any library, you just need file path
+    
+    
+    
+    formData.append('files', {
+       name: 'test',
+       type: 'video/mp4',
+       uri: path,
+       //uri: 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4',
+       //uri: Platform.OS === 'android' ? uri.replace('file://', '') : uri,
+    });
+    
+    
+    
+    fetch('http://10.0.2.2:1337/api/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log('response', response);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+
+//****************************************************************
+
+
+  //   axios.post('http://10.0.2.2:1337/api/stories',
+  //   {
+  //     "data": {
+  //       title: title,
+  //       description: description,
+  //       tag: tag, 
+  //     }
+  //   }, 
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization:
+  //         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NzAyMDkxLCJleHAiOjE2NTkyOTQwOTF9.dr9qQ71Vpt3oPkZ7KbiCr-8Ik7DNw_lzY0FL3CrbpWs'
+  //     }
+  //   }
+  // )
+  // .then((response) => {
+  //   console.warn(response);
+  // })
+  // .catch((error) => {
+  //   console.warn(error)
+  // })
+
+
 }
 
   return (
     <View style={styles.body}>
       
-      <Pressable onPress={takePic}>
+      <Pressable onPress={takeVid}>
         <Image
           source={Camera} style={[styles.camera, {height: height*0.15}]} resizeMode='contain'
         />

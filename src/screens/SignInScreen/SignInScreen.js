@@ -22,7 +22,7 @@ const SignInScreen = () => {
             password: password,
         })
         .then((response) => {
-            // console.warn(response.data.jwt)
+            //console.warn(response.data.jwt)
             navigation.navigate('Home')
         }).catch((error) => {
             console.warn('Wrong username or password')
