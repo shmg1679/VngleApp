@@ -9,7 +9,8 @@ import Upload from '../../../assets/images/upload-icon.png'
 
 const Index = () => {
 
-  let path = null; 
+  let path = null;
+  let pickID = null; 
 
   const takeVid = () =>{
     ImagePicker.openCamera({
@@ -48,25 +49,68 @@ const Index = () => {
   const onSubmit = () => {
 
     console.log(path);
+  
+    // //const uri = path 
+    // //const uri = 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4'; // from any library, you just need file path
+    
+    // const formData = new FormData();
+    // formData.append('files', {
+    //   name: 'test',
+    //   type: 'video/mp4',
+    //   uri: path,
+    // });
+
+    // formData.append("refId", picker);
+    
+    // formData.append("ref", "api::story.story");
+    
+    // formData.append("field", "media");
+    
+    
+    
+    // fetch('http://10.0.2.2:1337/api/upload', {
+    //   method: 'POST',
+    //   body: formData,
+    // })
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     console.log('response', response);
+    //   })
+    //   .catch(error => {
+    //     console.log('error', error);
+    //   });
+
+//****************************************************************
 
 
-
+    axios.post('http://10.0.2.2:1337/api/stories',
+    {
+      "data": {
+        title: title,
+        description: description,
+        tag: tag, 
+      }
+    }, 
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NzAyMDkxLCJleHAiOjE2NTkyOTQwOTF9.dr9qQ71Vpt3oPkZ7KbiCr-8Ik7DNw_lzY0FL3CrbpWs'
+      }
+    }
+  )
+  .then((response) => {
+    console.warn(response.data.data.id);
+    pickID = response.data.data.id;
     const formData = new FormData();
-    //const uri = path 
-    //const uri = 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4'; // from any library, you just need file path
-    
-    
-    
     formData.append('files', {
-       name: 'test',
-       type: 'video/mp4',
-       uri: path,
-       //uri: 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4',
-       //uri: Platform.OS === 'android' ? uri.replace('file://', '') : uri,
+      name: 'test',
+      type: 'video/mp4',
+      uri: path,
     });
-    
-    
-    
+    formData.append("refId", pickID);
+    formData.append("ref", "api::story.story");
+    formData.append("field", "media");
     fetch('http://10.0.2.2:1337/api/upload', {
       method: 'POST',
       body: formData,
@@ -78,32 +122,10 @@ const Index = () => {
       .catch(error => {
         console.log('error', error);
       });
-
-//****************************************************************
-
-
-  //   axios.post('http://10.0.2.2:1337/api/stories',
-  //   {
-  //     "data": {
-  //       title: title,
-  //       description: description,
-  //       tag: tag, 
-  //     }
-  //   }, 
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization:
-  //         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NzAyMDkxLCJleHAiOjE2NTkyOTQwOTF9.dr9qQ71Vpt3oPkZ7KbiCr-8Ik7DNw_lzY0FL3CrbpWs'
-  //     }
-  //   }
-  // )
-  // .then((response) => {
-  //   console.warn(response);
-  // })
-  // .catch((error) => {
-  //   console.warn(error)
-  // })
+  })
+  .catch((error) => {
+    console.warn(error)
+  })
 
 
 }
