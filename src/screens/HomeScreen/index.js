@@ -6,6 +6,7 @@ import CustomButton from '../../components/CustomButton'
 import ImagePicker from 'react-native-image-crop-picker';
 import Camera from '../../../assets/images/camera-icon.png'
 import Upload from '../../../assets/images/upload-icon.png'
+import {token} from '../../screens/SignInScreen/SignInScreen'
 
 const Index = () => {
 
@@ -49,6 +50,7 @@ const Index = () => {
   const onSubmit = () => {
 
     console.log(path);
+    console.log(token);
   
     // //const uri = path 
     // //const uri = 'file:///data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/video-a32335db-34d3-4af1-9d69-1d750a0e0f4a7596750946545028065.mp4'; // from any library, you just need file path
@@ -95,7 +97,7 @@ const Index = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NzAyMDkxLCJleHAiOjE2NTkyOTQwOTF9.dr9qQ71Vpt3oPkZ7KbiCr-8Ik7DNw_lzY0FL3CrbpWs'
+          `Bearer ${token}`
       }
     }
   )
@@ -104,7 +106,7 @@ const Index = () => {
     pickID = response.data.data.id;
     const formData = new FormData();
     formData.append('files', {
-      name: 'test',
+      name: `${pickID}`,
       type: 'video/mp4',
       uri: path,
     });

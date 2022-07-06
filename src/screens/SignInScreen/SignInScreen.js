@@ -5,7 +5,9 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignUpButtons from '../../components/SocialSignUpButtons/SocialSignUpButtons'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios';
+import axios from 'axios'; 
+
+export let token = null;
 
 const SignInScreen = () => {
     const [username, setUsername] = useState('');
@@ -23,6 +25,8 @@ const SignInScreen = () => {
         })
         .then((response) => {
             //console.warn(response.data.jwt)
+            token = response.data.jwt;
+            console.log(token)
             navigation.navigate('Home')
         }).catch((error) => {
             console.warn('Wrong username or password')
