@@ -143,7 +143,7 @@ const Index = () => {
         />
       </Pressable>
 
-      <Permissions/> 
+      {/* <Permissions/>  */}
 
       <Pressable onPress={pickVid}>
         <Image
