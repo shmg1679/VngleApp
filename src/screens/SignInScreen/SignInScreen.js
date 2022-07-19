@@ -19,6 +19,7 @@ const SignInScreen = () => {
     const onSignInPressed = async () => {
         //navigation.navigate('Home')
         //console.warn(username)
+        //10.0.2.2
         await axios.post('http://10.0.2.2:1337/api/auth/local',{
             identifier: username,
             password: password,

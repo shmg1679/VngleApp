@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
       android:name=".MainApplication"
@@ -22,6 +24,7 @@
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
+            <!-- <action android:name="Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION" /> -->
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>

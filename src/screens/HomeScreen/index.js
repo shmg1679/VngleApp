@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Camera from '../../../assets/images/camera-icon.png'
 import Upload from '../../../assets/images/upload-icon.png'
 import {token} from '../../screens/SignInScreen/SignInScreen'
+import Permissions from '../../components/PermissionsAndroid/PermissionsAndroid';
 
 const Index = () => {
 
@@ -85,7 +86,7 @@ const Index = () => {
 //****************************************************************
 
 
-    axios.post('http://10.0.2.2:1337/api/stories',
+    axios.post('http://localhost:1337/api/stories',
     {
       "data": {
         title: title,
@@ -102,6 +103,7 @@ const Index = () => {
     }
   )
   .then((response) => {
+    console.warn(response)
     console.warn(response.data.data.id);
     pickID = response.data.data.id;
     const formData = new FormData();
@@ -113,7 +115,7 @@ const Index = () => {
     formData.append("refId", pickID);
     formData.append("ref", "api::story.story");
     formData.append("field", "media");
-    fetch('http://10.0.2.2:1337/api/upload', {
+    fetch('http://localhost:1337/api/upload', {
       method: 'POST',
       body: formData,
     })
@@ -140,6 +142,9 @@ const Index = () => {
           source={Camera} style={[styles.camera, {height: height*0.15}]} resizeMode='contain'
         />
       </Pressable>
+
+      <Permissions/> 
+
       <Pressable onPress={pickVid}>
         <Image
           source={Upload} style={[styles.upload, {height: height*0.15}]} resizeMode='contain'
