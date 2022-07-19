@@ -6,6 +6,8 @@ import com.facebook.react.ReactRootView;
 
 import android.os.Bundle;
 
+import com.rnfs.RNFSPackage; // <------- add package
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -20,6 +22,13 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);
   }
+
+  @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(), // <---- add comma
+        new RNFSPackage() // <---------- add package
+      );
 
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
