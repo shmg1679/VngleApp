@@ -1,5 +1,5 @@
 import { View, Text, Button, StyleSheet, Pressable, Alert, Image, useWindowDimensions } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import axios from 'axios';
 import CustomButton from '../../components/CustomButton'
@@ -7,23 +7,40 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Camera from '../../../assets/images/camera-icon.png'
 import Upload from '../../../assets/images/upload-icon.png'
 import {token} from '../../screens/SignInScreen/SignInScreen'
+import Permissions from '../../components/PermissionsAndroid/PermissionsAndroid';
+
 import RNFS from 'react-native-fs'
+
 
 const Index = () => {
 
   let path = null;
   let pickID = null; 
 
+  const [downloadsFolder, setDownloadsFolder] = useState('');
+  const [documentsFolder, setDocumentsFolder] = useState('');
+  const [externalDirectory, setExternalDirectory] = useState('');
+  useEffect(() => {
+    //get user's file paths from react-native-fs
+    setDownloadsFolder(RNFS.DownloadDirectoryPath);
+    setDocumentsFolder(RNFS.DocumentDirectoryPath); //alternative to MainBundleDirectory.
+    setExternalDirectory(RNFS.ExternalStorageDirectoryPath);
+  }, []);
+
   const takeVid = () =>{
     ImagePicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      const filePath = JSON.stringify(image)
+      // const filePath = image.toString()
+      // filePath = filePath.startsWith('file://')?filePath.slice(7):filePath;
+      // console.log('file path: '+filePath)
       
-      console.log('file path: '+filePath)
-      const newFilePath = RNFS.ExternalCachesDirectoryPath
-      RNFS.moveFile(filePath,newFilePath)
-      console.log("huh: "+newFilePath)
+      // RNFS.copyFile(filePath,'/data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/')
+      // const newFilePath = RNFS.ExternalCachesDirectoryPath
+      // RNFS.moveFile(filePath,externalDirectory+"Android/media")
+      // console.log("file path: "+filePath)
+      // console.log("externalDirectory: "+externalDirectory)
+      // image.save(externalDirectory+'Android/media')
       console.log(image);
     }).catch((err) => { console.log("openCamera catch " + err.toString()) });
   }
@@ -109,6 +126,7 @@ const Index = () => {
     }
   )
   .then((response) => {
+    console.warn(response)
     console.warn(response.data.data.id);
     pickID = response.data.data.id;
     const formData = new FormData();
@@ -147,6 +165,9 @@ const Index = () => {
           source={Camera} style={[styles.camera, {height: height*0.15}]} resizeMode='contain'
         />
       </Pressable>
+
+      <Permissions/> 
+
       <Pressable onPress={pickVid}>
         <Image
           source={Upload} style={[styles.upload, {height: height*0.15}]} resizeMode='contain'
