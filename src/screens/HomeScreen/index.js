@@ -10,7 +10,7 @@ import {token} from '../../screens/SignInScreen/SignInScreen'
 import Permissions from '../../components/PermissionsAndroid/PermissionsAndroid';
 
 import RNFS from 'react-native-fs'
-
+import { Dirs, FileSystem } from 'react-native-file-access';
 
 const Index = () => {
 
@@ -31,17 +31,51 @@ const Index = () => {
     ImagePicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      // const filePath = image.toString()
+      // let filePath = image.path.toString()
+
+      // const storageDir = image.getExternalStoragePublicDirectory( image.DIRECTORY_PICTURES );
       // filePath = filePath.startsWith('file://')?filePath.slice(7):filePath;
-      // console.log('file path: '+filePath)
       
-      // RNFS.copyFile(filePath,'/data/user/0/com.vngleloginpractice/cache/react-native-image-crop-picker/')
-      // const newFilePath = RNFS.ExternalCachesDirectoryPath
-      // RNFS.moveFile(filePath,externalDirectory+"Android/media")
-      // console.log("file path: "+filePath)
-      // console.log("externalDirectory: "+externalDirectory)
+      
+
+      // const newFilePath = RNFS.ExternalStorageDirectoryPath+"/Android/media"
+
+      // const newFilePath = " file:///storage/emulated/0/Android/media/"
+      
+      // const cachesDirectoryPath = RNFS.CachesDirectoryPath
+      // const externalCachesDirectoryPath = RNFS.ExternalCachesDirectoryPath
+      // const documentDirectoryPath = RNFS.DocumentDirectoryPath
+      // const downloadDirectoryPath = RNFS.DownloadDirectoryPath
+      // const temporaryDirectoryPath = RNFS.TemporaryDirectoryPath
+      // const libraryDirectoryPath = RNFS.LibraryDirectoryPath
+      // const externalDirectoryPath = RNFS.ExternalDirectoryPath
+      // const externalStorageDirectoryPath = RNFS.ExternalStorageDirectoryPath
+      
+
+      // FileSystem.mv(filePath, newFilePath)
+      // RNFS.moveFile(filePath,newFilePath)
+      // RNFS.copyFile(filePath,storageDir)
+
       // image.save(externalDirectory+'Android/media')
+      // const newFilePath = RNFS.ExternalStorageDirectoryPath
+      // RNFS.moveFile(image.path,newFilePath )
+      // console.log("image path: "+image.path);
+      // console.log("file path: "+filePath);
+      // console.log("image uri: "+image.uri);
+
       console.log(image);
+      // console.log("newfilePath: "+newFilePath);
+      // console.log("filepath: "+filePath);
+
+      // console.log("cachesDirectoryPath: "+cachesDirectoryPath);
+      // console.log("externalCachesDirectoryPath: "+externalCachesDirectoryPath);
+      // console.log("documentDirectoryPath: "+documentDirectoryPath);
+      // console.log("downloadDirectoryPath: "+downloadDirectoryPath);
+      // console.log("temporaryDirectoryPath: "+temporaryDirectoryPath);
+      // console.log("libraryDirectoryPath: "+libraryDirectoryPath);
+      // console.log("externalDirectoryPath: "+externalDirectoryPath);
+      // console.log("externalStorageDirectoryPath: "+externalStorageDirectoryPath);
+
     }).catch((err) => { console.log("openCamera catch " + err.toString()) });
   }
 
@@ -50,6 +84,7 @@ const Index = () => {
       mediaType: "video",
     }).then((video) => {
       console.log(video.path);
+      console.log(video);
       path = video.path;
     }).catch((err) => { console.log("openPicker catch " + err.toString()) });
   }
