@@ -6,8 +6,11 @@ import CustomButton from '../../components/CustomButton'
 import ImagePicker from 'react-native-image-crop-picker';
 import Camera from '../../../assets/images/camera-icon.png'
 import Upload from '../../../assets/images/upload-icon.png'
+import MapIcon from '../../../assets/images/map.png'
 import {token} from '../../screens/SignInScreen/SignInScreen'
 import Permissions from '../../components/PermissionsAndroid/PermissionsAndroid';
+
+import GetLocation from 'react-native-get-location'
 
 const Index = () => {
 
@@ -42,6 +45,23 @@ const Index = () => {
   }
 
   const {height} = useWindowDimensions();
+
+  const getLocation = ()=>{
+      GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+      })
+      .then(location => {
+          console.log("Latitude: "+location.latitude);
+          console.log("longitude: "+location.longitude);
+          console.log("time: "+location.time);
+      })
+      .catch(error => {
+          const { code, message } = error;
+          console.warn(code, message);
+      })
+  }
+  
 
   
   const [title, setTitle] = useState('');
@@ -86,7 +106,7 @@ const Index = () => {
 //****************************************************************
 
 
-    axios.post('http://localhost:1337/api/stories',
+    axios.post('http://10.0.2.2:1337/api/stories',
     {
       "data": {
         title: title,
@@ -115,7 +135,7 @@ const Index = () => {
     formData.append("refId", pickID);
     formData.append("ref", "api::story.story");
     formData.append("field", "media");
-    fetch('http://localhost:1337/api/upload', {
+    fetch('http://10.0.2.2:1337/api/upload', {
       method: 'POST',
       body: formData,
     })
@@ -136,6 +156,12 @@ const Index = () => {
 
   return (
     <View style={styles.body}>
+      
+      <Pressable onPress={getLocation}>
+        <Image
+          source={MapIcon} style={[styles.map, {height: height*0.15}]} resizeMode='contain'
+        />
+      </Pressable>
       
       <Pressable onPress={takeVid}>
         <Image
@@ -182,7 +208,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'black',
-  }
+  },
+  map: {
+    width:100,
+    height: 100,
+    backgroundColor: '#ededed',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'black'
+  },
 });
 
 export default Index
