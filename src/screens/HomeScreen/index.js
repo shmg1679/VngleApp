@@ -8,6 +8,8 @@ const Index = () => {
       mediaType: 'video',
     }).then(image => {
       console.log(image);
+    }).catch(error=> {
+      console.log(error)
     });
   }
 

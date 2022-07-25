@@ -3,14 +3,15 @@ import React, {useState} from 'react'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
+import {useForm} from 'react-hook-form'
 
 const ResetPasswordScreen = () => {
-    const [code, setCode] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+    const {control, handleSubmit}= useForm()
 
     const navigation = useNavigation();
 
-    const onSubmitPressed = () =>{
+    const onSubmitPressed = (data) =>{
+        console.warn(data)
         navigation.navigate('Home')
     }
 
@@ -22,10 +23,29 @@ const ResetPasswordScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Reset your password</Text>
-                <CustomInput placeholder="Enter Code" value={code} setValue={setCode}/>
-                <CustomInput placeholder="Enter New Password" value={newPassword} setValue={setNewPassword}/>
+                <CustomInput 
+                    name="code" 
+                    control={control} 
+                    placeholder="Enter Code" 
+                    rules={{
+                        required:"Code is required"
+                    }}
+                />
+                <CustomInput 
+                    name="password" 
+                    control={control} 
+                    secureTextEntry
+                    placeholder="Enter New Password" 
+                    rules={{
+                        required:"New password is required",
+                        minLength:{
+                            value:8, 
+                            message:"Password should at least be 8 characters long"
+                        }, 
+                    }}
+                />
 
-                <CustomButton text="Submit" onPress={onSubmitPressed}/>
+                <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)}/>
 
                 <CustomButton text="Back to sign in" onPress={onSignInPress} type="TERTIARY" bgColor="#ffffff" fgColor="#383636" bdColor="transparent"/>
             </View>
@@ -41,7 +61,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#051C60',
+        color: '#409fff',
         margin: 10,
     },
     text:{

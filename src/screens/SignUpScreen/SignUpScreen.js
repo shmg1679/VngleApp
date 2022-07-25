@@ -4,12 +4,13 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignUpButtons from '../../components/SocialSignUpButtons/SocialSignUpButtons'
 import { useNavigation } from '@react-navigation/native'
+import {useForm} from 'react-hook-form'
+
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
+    const {control, handleSubmit, watch}= useForm()
+    const pwd = watch('password')
 
     const navigation = useNavigation();
 
@@ -33,12 +34,61 @@ const SignUpScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Register</Text>
-                <CustomInput placeholder="Username" value={username} setValue={setUsername}/>
-                <CustomInput placeholder="Email" value={email} setValue={setEmail}/>
-                <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true}/>
-                <CustomInput placeholder="Repeat Password" value={repeatPassword} setValue={setRepeatPassword} secureTextEntry={true}/>
 
-                <CustomButton text="Register" onPress={onRegisterPressed}/>
+                <CustomInput 
+                    name="username" 
+                    control={control} 
+                    placeholder="Username" 
+                    rules={{
+                        required:"Username is required", 
+                        minLength:{
+                            value:6, 
+                            message:"Username should at least be 6 characters long"
+                        }, 
+                        maxLength:{
+                            value:16, 
+                            message:"Username max length is 16 characters"
+                        },
+                    }}
+                />
+
+                <CustomInput 
+                    name="email" 
+                    control={control} 
+                    placeholder="Email"
+                    rules={{pattern: {value:EMAIL_REGEX, message:"Email is invalid"}}}
+                />
+
+                <CustomInput 
+                    name="password" 
+                    control={control} 
+                    placeholder="Password" 
+                    secureTextEntry
+                    rules={{
+                        required:"Password is required", 
+                        minLength:{
+                            value:8, 
+                            message:"Password should at least be 8 characters long"
+                        }, 
+                    }}
+                />
+
+                <CustomInput 
+                    name="repeat-password" 
+                    control={control} 
+                    placeholder="Repeat Password" 
+                    secureTextEntry
+                    rules={{
+                        validate: value =>
+                           value===pwd || 'Password do not match'
+                    }}
+                />
+
+                <CustomButton 
+                    text="Register" 
+                    onPress={handleSubmit(onRegisterPressed)}
+                />
+
                 <Text style={styles.text}>
                     By registering, you confirm that you accept our{' '}
                     <Text style={styles.link} onPress={onTermOfUsePress}>Terms of Use</Text> and{' '} 
@@ -61,16 +111,16 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#051C60',
+        color: '#409fff',
         margin: 10,
     },
     text:{
-        color: 'black',
+        color: 'white',
         marginVertical:10,
     },
     link:{
         fontWeight: 'bold',
-        color: '#1247b3'
+        color: '#409fff'
     },
 })
 

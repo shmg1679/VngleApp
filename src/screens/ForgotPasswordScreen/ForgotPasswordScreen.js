@@ -3,12 +3,15 @@ import React, {useState} from 'react'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
+import {useForm} from 'react-hook-form'
 
 const ForgotPasswordScreen = () => {
-    const [username, setUsername] = useState('');
+    const {control, handleSubmit}= useForm()
+    
     const navigation = useNavigation();
 
-    const onSendPressed = () =>{
+    const onSendPressed = (data) =>{
+        console.warn(data)
         navigation.navigate('ResetPassword')
     }
 
@@ -20,9 +23,16 @@ const ForgotPasswordScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Reset your password?</Text>
-                <CustomInput placeholder="Enter Email or Username" value={username} setValue={setUsername}/>
+                <CustomInput 
+                    name="username"
+                    control={control}
+                    placeholder="Enter Username" 
+                    rules={{
+                        required: 'Username is required'
+                    }}
+                />
 
-                <CustomButton text="Send" onPress={onSendPressed}/>
+                <CustomButton text="Send" onPress={handleSubmit(onSendPressed)}/>
 
                 <CustomButton text="Back to sign in" onPress={onSignInPress} type="TERTIARY" bgColor="#ffffff" fgColor="#383636" bdColor="transparent"/>
             </View>
@@ -38,7 +48,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#051C60',
+        color: '#409fff',
         margin: 10,
     },
     text:{

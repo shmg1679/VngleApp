@@ -3,13 +3,15 @@ import React, {useState} from 'react'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
+import {useForm} from 'react-hook-form'
 
 const ConfirmEmailScreen = () => {
-    const [code, setCode] = useState('');
+    const {control, handleSubmit}= useForm()
 
     const navigation = useNavigation();
 
-    const onConfirmPressed = () =>{
+    const onConfirmPressed = (data) =>{
+        console.warn(data)
         navigation.navigate('Home')
     }
 
@@ -25,9 +27,16 @@ const ConfirmEmailScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Confirm Your Email</Text>
-                <CustomInput placeholder="Enter Confirmation Code" value={code} setValue={setCode}/>
+                <CustomInput 
+                    name="code"
+                    control={control}
+                    placeholder="Enter Confirmation Code"
+                    rules={{
+                        required:'Confirmation code is required',
+                    }}
+                />
 
-                <CustomButton text="Confirm" onPress={onConfirmPressed}/>
+                <CustomButton text="Confirm" onPress={handleSubmit(onConfirmPressed)}/>
 
                 <CustomButton text="Resend Code" onPress={onResendPress} type="TERTIARY" bgColor="#ffffff" fgColor="#383636" bdColor="#01b7e7"/>
                 <CustomButton text="Back to sign in" onPress={onSignInPress} type="TERTIARY" bgColor="#ffffff" fgColor="#383636" bdColor="transparent"/>
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#051C60',
+        color: '#409fff',
         margin: 10,
     },
     text:{
