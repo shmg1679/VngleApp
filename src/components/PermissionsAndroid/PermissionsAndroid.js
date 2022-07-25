@@ -11,13 +11,15 @@ const requestCameraPermission = async () => {
     const granted = await PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      PermissionsAndroid.PERMISSIONS.ACCESS_MEDIA_LOCATION
     ]);
-    if (granted['android.permission.READ_EXTERNAL_STORAGE'] === 'granted' && granted['android.permission.ACCESS_FINE_LOCATION'] === 'granted' && granted['android.permission.ACCESS_COARSE_LOCATION'] === 'granted') {
+    if (granted['android.permission.READ_EXTERNAL_STORAGE'] === 'granted' && granted['android.permission.ACCESS_FINE_LOCATION'] === 'granted' && granted['android.permission.ACCESS_COARSE_LOCATION'] === 'granted' && granted['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted' && granted['android.permission.ACCESS_MEDIA_LOCATION'] === 'granted') {
       console.log("Permissions granted");
-      // let location = await RNLocation.getLatestLocation({timeout: 100})
-      // console.log(location, location.longitude, location.latitude, 
-      // location.timestamp)
+      let location = await RNLocation.getLatestLocation({timeout: 100})
+      console.log(location, location.longitude, location.latitude, 
+      location.timestamp)
     } else {
       console.log("Permissions denied");
     }
