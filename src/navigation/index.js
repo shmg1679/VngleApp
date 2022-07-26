@@ -9,6 +9,7 @@ import ConfirmEmailScreen from '../screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import HomeScreen from '../screens/HomeScreen'
+import MapScreen from '../screens/MapScreen';
 
 // each of these page needs:
 // import { useNavigation } from '@react-navigation/native'
@@ -38,6 +39,7 @@ const Navigation = () => {
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen}/>
         <Stack.Screen name='ResetPassword' component={ResetPasswordScreen}/>
         <Stack.Screen name='Home' component={HomeScreen}/>
+        <Stack.Screen name='Map' component={MapScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

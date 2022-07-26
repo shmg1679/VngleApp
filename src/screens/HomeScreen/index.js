@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, Pressable, Alert, Image, useWindowDimensions } from 'react-native'
+import { View, Text, Button, StyleSheet, Pressable, Alert, Image, useWindowDimensions,ScrollView } from 'react-native'
 import React, {useState} from 'react'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import axios from 'axios';
@@ -11,11 +11,17 @@ import {token} from '../../screens/SignInScreen/SignInScreen'
 import Permissions from '../../components/PermissionsAndroid/PermissionsAndroid';
 
 import GetLocation from 'react-native-get-location'
+import { useNavigation } from '@react-navigation/native'
 
 const Index = () => {
 
   let path = null;
   let pickID = null; 
+
+  const navigation = useNavigation();
+  const onMapViewPressed = () =>{
+        navigation.navigate('Map')
+    }
 
   const takeVid = () =>{
     ImagePicker.openCamera({
@@ -155,8 +161,15 @@ const Index = () => {
 }
 
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.body}>
       
+      <Pressable onPress={onMapViewPressed}>
+        <Image
+          source={MapIcon} style={[styles.map, {height: height*0.15}]} resizeMode='contain'
+        />
+      </Pressable>
+
       <Pressable onPress={getLocation}>
         <Image
           source={MapIcon} style={[styles.map, {height: height*0.15}]} resizeMode='contain'
@@ -183,6 +196,7 @@ const Index = () => {
       <CustomButton text="Submit" onPress={onSubmit}/>
         
     </View>
+    </ScrollView>
   );
 }
 
