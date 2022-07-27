@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vngleapp-staging-152540-authRole",
+      "UnauthRoleArn": "arn:aws:iam::990573712671:role/amplify-vngleapp-staging-152540-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::990573712671:role/amplify-vngleapp-staging-152540-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-vngleapp-staging-152540-deployment",
+      "UnauthRoleName": "amplify-vngleapp-staging-152540-unauthRole",
+      "StackName": "amplify-vngleapp-staging-152540",
+      "StackId": "arn:aws:cloudformation:us-east-1:990573712671:stack/amplify-vngleapp-staging-152540/5f9eadb0-0dc0-11ed-9092-12f097df9d23",
+      "AmplifyAppId": "dhglcifvp8yb6"
+    },
+    "categories": {
+      "auth": {
+        "VngleApp": {}
+      }
+    }
+  }
+}
